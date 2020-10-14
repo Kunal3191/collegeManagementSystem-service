@@ -1,5 +1,6 @@
 package com.college.service;
 
+import com.college.model.Course;
 import com.college.model.Person;
 import com.college.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    public Person updatePerson(Person person, int id){
+    public Person updatePerson(Person person, int personId){
         Person existPerson =  null;
-        Optional<Person> getPersonById = personRepository.findById(id);
+        Optional<Person> getPersonById = personRepository.findById(personId);
         if(getPersonById.isPresent()) {
             existPerson = getPersonById.get();
         }
@@ -81,9 +82,16 @@ public class PersonService {
         return personList;
     }
 
-    public void deletePerson(int id){
-        Person findPersonById= personRepository.findById(id).get();
+    public void deletePerson(int personId){
+        Person findPersonById= personRepository.findById(personId).get();
         if(findPersonById != null)
             personRepository.delete(findPersonById);
+    }
+    public Person findPersonById(int personId){
+        Person person = null;
+        if(personId > 0){
+            person = personRepository.findById(personId).get();
+        }
+        return person;
     }
 }

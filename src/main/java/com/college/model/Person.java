@@ -1,17 +1,15 @@
 package com.college.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int PersonId;
     private String firstName;
     private String lastName;
     private String middleName;
@@ -25,12 +23,12 @@ public class Person {
     public Person() {
     }
 
-    public int getId() {
-        return id;
+    public int getPersonId() {
+        return PersonId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPersonId(int personId) {
+        PersonId = personId;
     }
 
     public String getFirstName() {
@@ -105,4 +103,32 @@ public class Person {
         this.personType = personType;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "PersonId=" + PersonId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", program='" + program + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", personType='" + personType + '\'' +
+                ", courses=" + courses +
+                '}';
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "person_course", joinColumns=@JoinColumn(name = "person_id"), inverseJoinColumns =@JoinColumn(name = "course_id"))
+    private Set<Course> courses;
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void addCourses(Course course) {
+        this.courses.add(course);
+    }
 }

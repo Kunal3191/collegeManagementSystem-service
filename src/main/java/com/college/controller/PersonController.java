@@ -36,14 +36,14 @@ public class PersonController {
         return personList;
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.PUT)
-    public Person updatePerson(@RequestBody Person person, @PathVariable int id){
-        Person existPerson = personService.updatePerson(person, id);
+    @RequestMapping(value = "/person/{personId}", method = RequestMethod.PUT)
+    public Person updatePerson(@RequestBody Person person, @PathVariable int personId){
+        Person existPerson = personService.updatePerson(person, personId);
         return existPerson;
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.DELETE)
-    public void deletePerson(@PathVariable int id){
-        personService.deletePerson(id);
+    @RequestMapping(value = "/person/{personId}", method = RequestMethod.DELETE)
+    public void deletePerson(@PathVariable int personId){
+        personService.deletePerson(personId);
     }
 }
