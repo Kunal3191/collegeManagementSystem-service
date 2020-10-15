@@ -10,7 +10,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int collegeId;
+    private int courseId;
     private String name;
     private String term;
     private String description;
@@ -19,12 +19,12 @@ public class Course {
     public Course() {
     }
 
-    public int getCollegeId() {
-        return collegeId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setCollegeId(int collegeId) {
-        this.collegeId = collegeId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {
@@ -73,7 +73,7 @@ public class Course {
     @Override
     public String toString() {
         return "Course{" +
-                "collegeId=" + collegeId +
+                "courseId=" + courseId +
                 ", name='" + name + '\'' +
                 ", term='" + term + '\'' +
                 ", description='" + description + '\'' +

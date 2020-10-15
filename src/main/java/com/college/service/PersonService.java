@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class PersonService {
     public List<Person> getPersonByPersonType(String personType){
         List<Person> personList = null;
         if(personType != null){
-            personList = personRepository.getPersonByPersonType(personType).stream().collect(Collectors.toList());
+            personList = personRepository.getPersonByPersonType(personType).stream().sorted(Comparator.comparing(Person::getFirstName)).collect(Collectors.toList());
         }
         return personList;
     }
