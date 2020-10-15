@@ -9,6 +9,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class UserService {
@@ -22,22 +27,54 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
-    }public User findByEmailAndPassword(String email, String password){
+    }
+
+    public User findByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
 
-//    public void saveUser(User user){
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        user.setActive("1");
-//        /*Course course = new Course();
-//        course.setName("Java");
-//        course.setPublished("Yes");
-//        course.setTerm("Fall 2020");
-//        courseRepository.save(course);
-//        user.addCourse(course);*/
-//        userRepository.save(user);
-//    }
+    public void saveUser(User user) {
+        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive("active");
+        userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll().stream().sorted(Comparator.comparing(User::getFirstName)).collect(Collectors.toList());
+        return users;
+    }
+
+    public User getUserById(int userId) {
+        User user = null;
+        Optional<User> userById = userRepository.findById(userId);
+        if (userById.isPresent()) {
+            user = userById.get();
+        }
+        return user;
+    }
+
+    public User updateUser(User user, int userId) {
+        User existingUser = null;
+        Optional<User> existingUserById = userRepository.findById(userId);
+        if (existingUserById.isPresent()) {
+            existingUser = existingUserById.get();
+            if (user != null) {
+                existingUser.setActive(user.getActive());
+                existingUser.setPassword(user.getPassword());
+                existingUser.setDateOfBirth(user.getDateOfBirth());
+                existingUser.setEmail(user.getEmail());
+                user.setFirstName(user.getFirstName());
+                existingUser.setLastName(user.getLastName());
+                existingUser.setRole(user.getRole());
+            }
+        }
+        return existingUser;
+    }
+
+    public void deleteUser(int userId) {
+        userRepository.deleteById(userId);
+    }
 }

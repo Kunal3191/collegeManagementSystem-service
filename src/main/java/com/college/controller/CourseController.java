@@ -32,9 +32,14 @@ public class CourseController {
         return ResponseEntity.status(201).body("Course saved.");
     }
     @RequestMapping(value = "/person/{personId}/course/{{courseId}}", method = RequestMethod.DELETE)
-    public void deletePersonCourse(@PathVariable int personId, @PathVariable int courseId){
+    public ResponseEntity deletePersonCourse(@PathVariable int personId, @PathVariable int courseId){
         if(courseId > 0){
             courseService.deleteCourse(courseId);
+            return ResponseEntity.status(202).body("Record deleted successfully");
+        }
+        else
+        {
+            return ResponseEntity.status(204).body("Record deletion failed");
         }
     }
 }

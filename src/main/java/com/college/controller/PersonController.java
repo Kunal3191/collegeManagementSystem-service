@@ -43,7 +43,13 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/person/{personId}", method = RequestMethod.DELETE)
-    public void deletePerson(@PathVariable int personId){
-        personService.deletePerson(personId);
+    public ResponseEntity deletePerson(@PathVariable int personId){
+        if(personId > 0) {
+            personService.deletePerson(personId);
+            return ResponseEntity.status(202).body("Records deleted successfully");
+        }
+        else{
+            return ResponseEntity.status(204).body("Record deletion failed");
+        }
     }
 }
