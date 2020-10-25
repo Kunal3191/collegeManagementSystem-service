@@ -20,17 +20,20 @@ public class CourseController {
     @Autowired
     private PersonService personService;
 
-    @RequestMapping(value = "/person/{{personId}}/course", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/person/{personId}/course", method = RequestMethod.GET)
     public Set<Course> getPersonCourse(@PathVariable int personId){
         Set<Course> courses = courseService.getPersonCourse(personId);
         return courses;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}/course", method = RequestMethod.POST)
     public ResponseEntity savePersonCourse(@PathVariable int personId, @RequestBody Course course){
         courseService.savePersonCourse(personId, course);
         return ResponseEntity.status(201).body("Course saved.");
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}/course/{{courseId}}", method = RequestMethod.DELETE)
     public ResponseEntity deletePersonCourse(@PathVariable int personId, @PathVariable int courseId){
         if(courseId > 0){

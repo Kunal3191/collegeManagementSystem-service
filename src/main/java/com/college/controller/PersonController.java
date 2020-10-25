@@ -14,12 +14,14 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person", method = RequestMethod.GET)
-    public List<Person> getPersonList(String personType){
+    public List<Person> getPersonList(@RequestParam String personType){
         List<Person> personList = personService.getPersonByPersonType(personType);
         return personList;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person", method = RequestMethod.POST)
     public ResponseEntity savePerson(@RequestBody Person person){
         Person personByEmail = personService.findPersonByEmail(person.getEmail());
@@ -30,18 +32,21 @@ public class PersonController {
         return ResponseEntity.status(201).body("User created successfully");
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{firstName}", method = RequestMethod.GET)
     public List<Person> getPersonByName(@PathVariable String firstName, String personType){
         List<Person> personList = personService.findPersonByFirstNameAndPersonType(firstName, personType);
         return personList;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}", method = RequestMethod.PUT)
     public Person updatePerson(@RequestBody Person person, @PathVariable int personId){
         Person existPerson = personService.updatePerson(person, personId);
         return existPerson;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}", method = RequestMethod.DELETE)
     public ResponseEntity deletePerson(@PathVariable int personId){
         if(personId > 0) {

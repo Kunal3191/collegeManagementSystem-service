@@ -2,6 +2,7 @@ package com.college.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -103,26 +104,16 @@ public class Person {
         this.personType = personType;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "PersonId=" + PersonId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", gender='" + gender + '\'' +
-                ", program='" + program + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", personType='" + personType + '\'' +
-                ", courses=" + courses +
-                '}';
-    }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "person_course", joinColumns=@JoinColumn(name = "person_id"), inverseJoinColumns =@JoinColumn(name = "course_id"))
     private Set<Course> courses;
+
+    @OneToMany(mappedBy = "person")
+    //@JoinColumn(insertable = false, updatable = false)
+    private List<Attendance> attendances;
 
     public Set<Course> getCourses() {
         return courses;
@@ -130,5 +121,13 @@ public class Person {
 
     public void addCourses(Course course) {
         this.courses.add(course);
+    }
+
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Attendance attendance) {
+        this.attendances.add(attendance);
     }
 }

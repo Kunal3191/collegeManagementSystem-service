@@ -16,10 +16,13 @@ public class Course {
     private String term;
     private String description;
     private String published;
-    private String paperName;
-    private double score;
-    private int total;
-    private Date examConducted;
+
+    /*for fee*/
+    private double firstInstallment;
+    private double secondInstallment;
+    private Date firstInstallmentDate;
+    private Date secondInstallmentDate;
+    private double totalFee;
 
     public Course() {
     }
@@ -64,40 +67,52 @@ public class Course {
         this.description = description;
     }
 
-    public String getPaperName() {
-        return paperName;
+    public double getFirstInstallment() {
+        return firstInstallment;
     }
 
-    public void setPaperName(String paperName) {
-        this.paperName = paperName;
+    public void setFirstInstallment(double firstInstallment) {
+        this.firstInstallment = firstInstallment;
     }
 
-    public double getScore() {
-        return score;
+    public double getSecondInstallment() {
+        return secondInstallment;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setSecondInstallment(double secondInstallment) {
+        this.secondInstallment = secondInstallment;
     }
 
-    public int getTotal() {
-        return total;
+    public Date getFirstInstallmentDate() {
+        return firstInstallmentDate;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setFirstInstallmentDate(Date firstInstallmentDate) {
+        this.firstInstallmentDate = firstInstallmentDate;
     }
 
-    public Date getExamConducted() {
-        return examConducted;
+    public Date getSecondInstallmentDate() {
+        return secondInstallmentDate;
     }
 
-    public void setExamConducted(Date examConducted) {
-        this.examConducted = examConducted;
+    public void setSecondInstallmentDate(Date secondInstallmentDate) {
+        this.secondInstallmentDate = secondInstallmentDate;
     }
 
-    @ManyToMany(mappedBy = "courses")
+    public double getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(double totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    @ManyToMany(mappedBy = "courses", cascade = CascadeType.REMOVE)
     private Set<Person> persons;
+
+    @OneToMany(mappedBy = "course")
+    private Set<Attendance> attendances;
+
 
     public Set<Person> getPersons() {
         return persons;
@@ -105,6 +120,25 @@ public class Course {
 
     public void setPersons(Set<Person> persons) {
         this.persons = persons;
+    }
+
+    public Set<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void addAttendances(Attendance attendance) {
+        this.attendances.add(attendance);
+    }
+
+    @OneToMany(mappedBy = "course")
+    private List<Exam> exams;
+
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void addExams(Exam exam) {
+        this.exams.add(exam);
     }
 
     @Override
@@ -115,11 +149,14 @@ public class Course {
                 ", term='" + term + '\'' +
                 ", description='" + description + '\'' +
                 ", published='" + published + '\'' +
-                ", paperName='" + paperName + '\'' +
-                ", score=" + score +
-                ", total=" + total +
-                ", examConducted=" + examConducted +
+                ", firstInstallment=" + firstInstallment +
+                ", secondInstallment=" + secondInstallment +
+                ", firstInstallmentDate=" + firstInstallmentDate +
+                ", secondInstallmentDate=" + secondInstallmentDate +
+                ", totalFee=" + totalFee +
                 ", persons=" + persons +
+                ", attendances=" + attendances +
+                ", exams=" + exams +
                 '}';
     }
 }
