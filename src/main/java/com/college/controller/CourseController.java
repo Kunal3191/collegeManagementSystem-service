@@ -1,6 +1,7 @@
 package com.college.controller;
 
 import com.college.model.Course;
+import com.college.model.CourseMaster;
 import com.college.model.Person;
 import com.college.service.CourseService;
 import com.college.service.PersonService;
@@ -44,5 +45,11 @@ public class CourseController {
         {
             return ResponseEntity.status(204).body("Record deletion failed");
         }
+    }
+
+    @RequestMapping(value = "/course", method = RequestMethod.GET)
+    public Set<CourseMaster> getAllCourses(){
+        Set<CourseMaster> courseSet = courseService.getAllCourses();
+        return courseSet;
     }
 }

@@ -1,5 +1,7 @@
 package com.college.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,6 +15,8 @@ public class Exam {
     private int outOf;
     private double score;
     private Date examDate;
+    private String personName;
+    private String courseName;
 
     public Exam() {
     }
@@ -57,8 +61,31 @@ public class Exam {
         this.examDate = examDate;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     public Course getCourse() {
         return course;
@@ -66,6 +93,14 @@ public class Exam {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
@@ -76,7 +111,10 @@ public class Exam {
                 ", outOf=" + outOf +
                 ", score=" + score +
                 ", examDate=" + examDate +
+                ", personName='" + personName + '\'' +
+                ", courseName='" + courseName + '\'' +
                 ", course=" + course +
+                ", person=" + person +
                 '}';
     }
 }

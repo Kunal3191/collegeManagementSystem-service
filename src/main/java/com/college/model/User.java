@@ -20,6 +20,7 @@ public  class User {
     private String password;
     private String active;
     private String role;
+    private String mobileNumber;
 
     public User() {
     }
@@ -88,6 +89,14 @@ public  class User {
         this.role = role;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -99,6 +108,7 @@ public  class User {
                 ", password='" + password + '\'' +
                 ", active='" + active + '\'' +
                 ", role='" + role + '\'' +
+                ", mobileNumber=" + mobileNumber +
                 '}';
     }
 }

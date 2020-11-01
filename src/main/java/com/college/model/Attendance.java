@@ -1,5 +1,7 @@
 package com.college.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,8 +13,8 @@ public class Attendance {
     private int attendanceId;
     private Date attendanceDate;
     private String status;
-    private String courseName;
     private String personName;
+    private String courseName;
 
     public int getAttendanceId() {
         return attendanceId;
@@ -38,14 +40,6 @@ public class Attendance {
         this.status = status;
     }
 
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
     public String getPersonName() {
         return personName;
     }
@@ -54,10 +48,22 @@ public class Attendance {
         this.personName = personName;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "person_id")
     private Person person;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
 
     public Person getPerson() {
@@ -82,8 +88,8 @@ public class Attendance {
                 "attendanceId=" + attendanceId +
                 ", attendanceDate=" + attendanceDate +
                 ", status='" + status + '\'' +
-                ", courseName='" + courseName + '\'' +
                 ", personName='" + personName + '\'' +
+                ", courseName='" + courseName + '\'' +
                 ", person=" + person +
                 ", course=" + course +
                 '}';

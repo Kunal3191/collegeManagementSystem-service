@@ -1,5 +1,7 @@
 package com.college.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,12 +109,17 @@ public class Course {
         this.totalFee = totalFee;
     }
 
-    @ManyToMany(mappedBy = "courses", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "courses")
     private Set<Person> persons;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<Attendance> attendances;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "course")
+    private Set<Exam> exams;
 
     public Set<Person> getPersons() {
         return persons;
@@ -130,10 +137,7 @@ public class Course {
         this.attendances.add(attendance);
     }
 
-    @OneToMany(mappedBy = "course")
-    private List<Exam> exams;
-
-    public List<Exam> getExams() {
+    public Set<Exam> getExams() {
         return exams;
     }
 
@@ -141,7 +145,7 @@ public class Course {
         this.exams.add(exam);
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Course{" +
                 "courseId=" + courseId +
@@ -158,5 +162,5 @@ public class Course {
                 ", attendances=" + attendances +
                 ", exams=" + exams +
                 '}';
-    }
+    }*/
 }

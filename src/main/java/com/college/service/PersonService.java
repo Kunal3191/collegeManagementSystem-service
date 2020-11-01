@@ -22,7 +22,9 @@ public class PersonService {
     public List<Person> getPersonByPersonType(String personType){
         List<Person> personList = null;
         if(personType != null){
-            personList = personRepository.getPersonByPersonType(personType).stream().sorted(Comparator.comparing(Person::getFirstName)).collect(Collectors.toList());
+            personList = personRepository.getPersonByPersonType(personType).stream()
+                    .filter(person -> person.getPersonType().equals(personType))
+                    .sorted(Comparator.comparing(Person::getFirstName)).collect(Collectors.toList());
         }
         return personList;
     }
@@ -59,8 +61,20 @@ public class PersonService {
         if(existPerson.getProgram() != null){
             existPerson.setProgram(person.getProgram());
         }
-        if(existPerson.getAddress() != null){
-            existPerson.setAddress(person.getAddress());
+        if(existPerson.getAddressLine1() != null){
+            existPerson.setAddressLine1(person.getAddressLine1());
+        }
+        if(existPerson.getAddressLine2() != null){
+            existPerson.setAddressLine2(person.getAddressLine2());
+        }
+        if(existPerson.getState() != null){
+            existPerson.setState(person.getState());
+        }
+        if(existPerson.getCountry() != null){
+            existPerson.setCountry(person.getCountry());
+        }
+        if(existPerson.getZipCode() != null){
+            existPerson.setZipCode(person.getZipCode());
         }
         if(existPerson.getEmail() != null){
             existPerson.setEmail(person.getEmail());
