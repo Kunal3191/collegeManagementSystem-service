@@ -1,11 +1,7 @@
 package com.college.service;
 
-import com.college.model.Course;
-import com.college.model.CourseMaster;
-import com.college.model.Person;
-import com.college.repository.CourseMasterRepository;
-import com.college.repository.CourseRepository;
-import com.college.repository.PersonRepository;
+import com.college.model.*;
+import com.college.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +24,12 @@ public class CourseService {
 
     @Autowired
     private CourseMasterRepository courseMasterRepository;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private ExamRepository examRepository;
 
     public Set<Course> getPersonCourse(int personId){
         Person person = null;
@@ -59,7 +61,23 @@ public class CourseService {
        return existingCourse;
     }*/
     public void deleteCourse(int courseId){
-        courseRepository.deleteById(courseId);
+        if(courseId > 0){
+            Course course = courseRepository.findById(courseId).get();
+            Set<Attendance> attendances = course.getAttendances();
+            attendances.forEach(attendance -> {
+                if(attendance != null){
+                    attendanceRepository.delete(attendance);
+                }
+            });
+            Set<Exam> exams = course.getExams();
+            exams.forEach(exam -> {
+                if(exam != null){
+                    examRepository.delete(exam);
+                }
+            });
+            courseRepository.deleteById(courseId);
+        }
+
     }
 
     public Set<CourseMaster> getAllCourses(){

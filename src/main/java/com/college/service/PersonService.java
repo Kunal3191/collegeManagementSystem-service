@@ -1,7 +1,12 @@
 package com.college.service;
 
+import com.college.model.Attendance;
 import com.college.model.Course;
+import com.college.model.Exam;
 import com.college.model.Person;
+import com.college.repository.AttendanceRepository;
+import com.college.repository.CourseRepository;
+import com.college.repository.ExamRepository;
 import com.college.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +24,15 @@ public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private ExamRepository examRepository;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     public List<Person> getPersonByPersonType(String personType){
         List<Person> personList = null;
@@ -99,8 +114,30 @@ public class PersonService {
 
     public void deletePerson(int personId){
         Person findPersonById= personRepository.findById(personId).get();
-        if(findPersonById != null)
+        if(findPersonById != null) {
+            Set<Exam> exams = findPersonById.getExams();
+            exams.forEach(exam -> {
+                if(exam !=null){
+                    examRepository.delete(exam);
+                }
+            });
+
+            List<Attendance> attendances = findPersonById.getAttendances();
+            attendances.forEach(attendance -> {
+                if(attendance != null){
+                    attendanceRepository.delete(attendance);
+                }
+            });
+
+            Set<Course> courses = findPersonById.getCourses();
+            courses.forEach(course -> {
+                if(course != null){
+                    courseRepository.delete(course);
+                }
+            });
             personRepository.delete(findPersonById);
+        }
+
     }
     public Person findPersonById(int personId){
         Person person = null;
