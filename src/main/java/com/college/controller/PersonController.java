@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PersonController {
@@ -23,13 +25,16 @@ public class PersonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person", method = RequestMethod.POST)
-    public ResponseEntity savePerson(@RequestBody Person person){
+    public Map<String, String> savePerson(@RequestBody Person person){
+        Map<String, String> hashMap = new HashMap<>();
         Person personByEmail = personService.findPersonByEmail(person.getEmail());
         if(personByEmail != null){
-            return ResponseEntity.status(400).body("Email id already exist. Please enter a different email id.");
+            hashMap.put("message", "Email id already exist. Please enter a different email id.");
+            return hashMap;
         }
         personService.savePerson(person);
-        return ResponseEntity.status(201).body("User created successfully");
+        hashMap.put("message", "user created successfully");
+        return hashMap;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -48,13 +53,16 @@ public class PersonController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}", method = RequestMethod.DELETE)
-    public ResponseEntity deletePerson(@PathVariable int personId){
+    public Map<String, String> deletePerson(@PathVariable int personId){
+        Map<String, String> hashMap = new HashMap<>();
         if(personId > 0) {
             personService.deletePerson(personId);
-            return ResponseEntity.status(202).body("Records deleted successfully");
+            hashMap.put("message", "Records deleted successfully");
+            return hashMap;
         }
         else{
-            return ResponseEntity.status(204).body("Record deletion failed");
+            hashMap.put("message", "Record deletion failed");
+            return hashMap;
         }
     }
 }

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,34 +45,50 @@ public class CourseService {
 
     public void savePersonCourse(int personId, Course course){
         Person person = null;
+        courseRepository.save(course);
         Optional<Person> personWithId = personRepository.findById(personId);
         if(personWithId.isPresent()){
             person = personWithId.get();
             person.addCourses(course);
+
         }
         personRepository.save(person);
 
+    }
+    public Map<String, String> updatePersonCourse(int personId, Course course){
+        Map<String, String> hashMap = new HashMap<>();
+        if(course != null) {
+            courseRepository.save(course);
+            hashMap.put("message", "data successfully update");
+        }
+        else{
+            hashMap.put("message", "data update failed");
+        }
+    return hashMap;
     }
     /*public Optional<Course> getPersonAllCourse(Person person, int courseId){
         Optional<Course> existingCourse = person.getCourses().stream().filter(course -> course.getCourseId() == courseId).findAny();
        return existingCourse;
     }*/
-    public void deleteCourse(int courseId){
+    public void deleteCourse(int personId, int courseId){
         if(courseId > 0){
-            Course course = courseRepository.findById(courseId).get();
-            Set<Attendance> attendances = course.getAttendances();
-            attendances.forEach(attendance -> {
-                if(attendance != null){
-                    attendanceRepository.delete(attendance);
-                }
+            Person person = personRepository.findById(personId).get();
+            person.getCourses().stream().filter(course -> course.getCourseId() == courseId)
+                .forEach(course -> {
+                course.getAttendances().forEach(attendance -> attendanceRepository.delete(attendance));
             });
-            Set<Exam> exams = course.getExams();
-            exams.forEach(exam -> {
-                if(exam != null){
-                    examRepository.delete(exam);
-                }
+            person.getCourses().stream().filter(course -> course.getCourseId() == courseId)
+                    .forEach(course -> {
+                course.getExams().forEach(exam -> examRepository.delete(exam));
             });
-            courseRepository.deleteById(courseId);
+            person.removeCourse(courseRepository.getOne(courseId));
+            //person.getCourses().stream().filter(course -> course.getCourseId() == courseId).forEach(course -> courseRepository.delete(course));
+//            Course course = courseRepository.findById(courseId).get();
+//            Set<Attendance> attendances = course.getAttendances();
+//            attendances.forEach(attendance -> attendanceRepository.delete(attendance));
+//            Set<Exam> exams = course.getExams();
+//            exams.forEach(exam -> examRepository.delete(exam));
+//            courseRepository.deleteById(courseId);
         }
 
     }

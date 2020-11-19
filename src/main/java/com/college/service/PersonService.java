@@ -113,29 +113,18 @@ public class PersonService {
     }
 
     public void deletePerson(int personId){
-        Person findPersonById= personRepository.findById(personId).get();
-        if(findPersonById != null) {
-            Set<Exam> exams = findPersonById.getExams();
-            exams.forEach(exam -> {
-                if(exam !=null){
-                    examRepository.delete(exam);
-                }
-            });
-
-            List<Attendance> attendances = findPersonById.getAttendances();
-            attendances.forEach(attendance -> {
-                if(attendance != null){
-                    attendanceRepository.delete(attendance);
-                }
-            });
-
-            Set<Course> courses = findPersonById.getCourses();
-            courses.forEach(course -> {
-                if(course != null){
-                    courseRepository.delete(course);
-                }
-            });
-            personRepository.delete(findPersonById);
+        Person person= personRepository.findById(personId).get();
+        if(person != null) {
+            person.getCourses().stream()
+                    .forEach(course -> {
+                        course.getAttendances().forEach(attendance -> attendanceRepository.delete(attendance));
+                    });
+            person.getCourses().stream()
+                    .forEach(course -> {
+                        course.getExams().forEach(exam -> examRepository.delete(exam));
+                    });
+            person.getCourses().forEach(course -> courseRepository.delete(course));
+            personRepository.delete(person);
         }
 
     }

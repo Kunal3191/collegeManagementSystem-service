@@ -10,7 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -32,17 +34,20 @@ public class UserController {
     }
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody User user){
+    public Map<String, String> createUser(@RequestBody User user){
+        Map<String, String> hashMap = new HashMap<>();
         //ModelAndView model = new ModelAndView();
         User userExists = userService.findByEmail(user.getEmail());
 
         if(userExists != null) {
-            return ResponseEntity.status(400).body("This emil already in use. Please Use different email");
+            hashMap.put("message", "This email already in use. Please use different email");
+            return hashMap;
         }
         else {
             user.setPassword("test");
             userService.saveUser(user);
-            return ResponseEntity.status(201).body("User created Successfully");
+            hashMap.put("message", "User created Successfully");
+            return hashMap;
         }
 
     }

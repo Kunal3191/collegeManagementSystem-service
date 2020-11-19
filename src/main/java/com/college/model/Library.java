@@ -1,9 +1,10 @@
 package com.college.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Library {
@@ -11,13 +12,12 @@ public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String bookName;
-    private String bookTitle;
-    private String authorName;
-    private int quantity;
-    private String category;
     private String firstName;
     private String lastName;
+    private Date issueDate;
+    private Date lastReturnDate;
+    private String status;
+    private int noOfBookOrdered;
 
     public Library() {
     }
@@ -28,46 +28,6 @@ public class Library {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getFirstName() {
@@ -86,17 +46,64 @@ public class Library {
         this.lastName = lastName;
     }
 
+    public Date getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public Date getLastReturnDate() {
+        return lastReturnDate;
+    }
+
+    public void setLastReturnDate(Date lastReturnDate) {
+        this.lastReturnDate = lastReturnDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getNoOfBookOrdered() {
+        return noOfBookOrdered;
+    }
+
+    public void setNoOfBookOrdered(int noOfBookOrdered) {
+        this.noOfBookOrdered = noOfBookOrdered;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     @Override
     public String toString() {
         return "Library{" +
                 "id=" + id +
-                ", bookName='" + bookName + '\'' +
-                ", bookTitle='" + bookTitle + '\'' +
-                ", authorName='" + authorName + '\'' +
-                ", quantity=" + quantity +
-                ", category='" + category + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", issueDate=" + issueDate +
+                ", lastReturnDate=" + lastReturnDate +
+                ", status='" + status + '\'' +
+                ", noOfBookOrdered=" + noOfBookOrdered +
+                ", book=" + book +
                 '}';
     }
 }

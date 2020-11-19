@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,20 +32,34 @@ public class CourseController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}/course", method = RequestMethod.POST)
-    public ResponseEntity savePersonCourse(@PathVariable int personId, @RequestBody Course course){
+    public Map<String, String> savePersonCourse(@PathVariable int personId, @RequestBody Course course){
+        Map<String, String> hashMap = new HashMap<>();
         courseService.savePersonCourse(personId, course);
-        return ResponseEntity.status(201).body("Course saved.");
+        hashMap.put("message", "Course saved");
+        return hashMap;
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/person/{personId}/course", method = RequestMethod.PUT)
+    public Map<String, String> updatePersonCourse(@PathVariable int personId, @RequestBody Course course){
+        Map<String, String> hashMap = new HashMap<>();
+             hashMap = courseService.updatePersonCourse(personId, course);
+
+        return hashMap;
     }
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/person/{personId}/course/{{courseId}}", method = RequestMethod.DELETE)
-    public ResponseEntity deletePersonCourse(@PathVariable int personId, @PathVariable int courseId){
+    @RequestMapping(value = "/person/{personId}/course/{courseId}", method = RequestMethod.DELETE)
+    public Map<String, String> deletePersonCourse(@PathVariable int personId, @PathVariable int courseId){
+        Map<String, String> hashMap = new HashMap<>();
         if(courseId > 0){
-            courseService.deleteCourse(courseId);
-            return ResponseEntity.status(202).body("Record deleted successfully");
+            courseService.deleteCourse(personId, courseId);
+            hashMap.put("message", "Record deleted successfully");
+            return hashMap;
         }
         else
         {
-            return ResponseEntity.status(204).body("Record deletion failed");
+            hashMap.put("message", "Record deletion failed");
+            return hashMap;
         }
     }
 
