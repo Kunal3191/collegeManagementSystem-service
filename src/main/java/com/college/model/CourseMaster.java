@@ -1,9 +1,8 @@
 package com.college.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 @Entity
 public class CourseMaster {
@@ -12,7 +11,7 @@ public class CourseMaster {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String courseName;
-    private String department;
+    private String description;
 
     public int getId() {
         return id;
@@ -30,11 +29,23 @@ public class CourseMaster {
         this.courseName = courseName;
     }
 
-    public String getDepartment() {
+    @JsonIgnore
+    @ManyToOne
+    private Department department;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
@@ -43,7 +54,8 @@ public class CourseMaster {
         return "CourseMaster{" +
                 "id=" + id +
                 ", courseName='" + courseName + '\'' +
-                ", department='" + department + '\'' +
+                ", description='" + description + '\'' +
+                ", department=" + department +
                 '}';
     }
 }
