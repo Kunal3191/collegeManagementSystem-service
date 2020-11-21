@@ -29,12 +29,14 @@ public class LibraryController {
         return map;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/library/status", method = RequestMethod.GET)
     public List<Library> viewOrder(@RequestParam String bookName){
         List<Library> libraryList = libraryService.getBookByStatus(bookName);
         return libraryList;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/library/{id}", method = RequestMethod.PUT)
     public Map<String, String> returnOrder(@RequestBody Library library, @PathVariable int id){
         Map<String, String> hashMap = libraryService.updateOrder(library, id);
@@ -65,6 +67,7 @@ public class LibraryController {
         return hashMap;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/library/{bookId}", method = RequestMethod.DELETE)
     public Map<String, String> deleteLibrary(@PathVariable int bookId){
         Map<String, String> hashMap = new HashMap<>();
@@ -77,6 +80,7 @@ public class LibraryController {
         return hashMap;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/library/availability", method = RequestMethod.GET)
     public Map<String, Integer> checkBookAvailability(@RequestParam String bookName){
         Map<String, Integer> hashMap = new HashMap<>();

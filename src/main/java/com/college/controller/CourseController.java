@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class CourseController {
@@ -63,9 +60,17 @@ public class CourseController {
         }
     }
 
-    @RequestMapping(value = "/course", method = RequestMethod.GET)
-    public Set<CourseMaster> getAllCourses(){
-        Set<CourseMaster> courseSet = courseService.getAllCourses();
-        return courseSet;
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(value = "/course", method = RequestMethod.GET)
+//    public Set<CourseMaster> getAllCourses(){
+//        Set<CourseMaster> courseSet = courseService.getAllCourses();
+//        return courseSet;
+//    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/courseMaster", method = RequestMethod.GET)
+    public Set<CourseMaster> getAllCourse(){
+        Set<CourseMaster> courseMasterSet = courseService.getAllCourses();
+        return courseMasterSet;
     }
 }

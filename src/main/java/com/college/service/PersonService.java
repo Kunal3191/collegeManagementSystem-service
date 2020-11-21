@@ -34,9 +34,9 @@ public class PersonService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<Person> getPersonByPersonType(String personType){
+    public List<Person> getPersonByPersonType(String personType) {
         List<Person> personList = null;
-        if(personType != null){
+        if (personType != null) {
             personList = personRepository.getPersonByPersonType(personType).stream()
                     .filter(person -> person.getPersonType().equals(personType))
                     .sorted(Comparator.comparing(Person::getFirstName)).collect(Collectors.toList());
@@ -44,77 +44,54 @@ public class PersonService {
         return personList;
     }
 
-    public Person findPersonByEmail(String email){
+    public Person findPersonByEmail(String email) {
         Person person = null;
-        if(email != null){
-             person = personRepository.findPersonByEmail(email);
+        if (email != null) {
+            person = personRepository.findPersonByEmail(email);
         }
         return person;
     }
-    public void savePerson(Person person){
+
+    public void savePerson(Person person) {
         personRepository.save(person);
     }
 
-    public Person updatePerson(Person person, int personId){
-        Person existPerson =  null;
+    public Person updatePerson(Person person, int personId) {
+        Person existPerson = null;
         Optional<Person> getPersonById = personRepository.findById(personId);
-        if(getPersonById.isPresent()) {
+        if (getPersonById.isPresent()) {
             existPerson = getPersonById.get();
         }
-        if(existPerson.getFirstName() != null){
-            existPerson.setFirstName(person.getFirstName());
-        }
-        if(existPerson.getLastName() != null){
-            existPerson.setLastName(person.getLastName());
-        }
-        if(existPerson.getMiddleName() != null){
-            existPerson.setMiddleName(person.getMiddleName());
-        }
-        if(existPerson.getGender() != null){
-            existPerson.setGender(person.getGender());
-        }
-        if(existPerson.getProgram() != null){
-            existPerson.setProgram(person.getProgram());
-        }
-        if(existPerson.getAddressLine1() != null){
-            existPerson.setAddressLine1(person.getAddressLine1());
-        }
-        if(existPerson.getAddressLine2() != null){
-            existPerson.setAddressLine2(person.getAddressLine2());
-        }
-        if(existPerson.getState() != null){
-            existPerson.setState(person.getState());
-        }
-        if(existPerson.getCountry() != null){
-            existPerson.setCountry(person.getCountry());
-        }
-        if(existPerson.getZipCode() != null){
-            existPerson.setZipCode(person.getZipCode());
-        }
-        if(existPerson.getEmail() != null){
-            existPerson.setEmail(person.getEmail());
-        }
-        if(existPerson.getDateOfBirth() != null){
-            existPerson.setDateOfBirth(person.getDateOfBirth());
-        }
-        if(existPerson.getPersonType() != null){
-            existPerson.setPersonType(person.getPersonType());
-        }
+
+        existPerson.setFirstName(person.getFirstName());
+        existPerson.setLastName(person.getLastName());
+        existPerson.setMiddleName(person.getMiddleName());
+        existPerson.setGender(person.getGender());
+        existPerson.setProgram(person.getProgram());
+        existPerson.setAddressLine1(person.getAddressLine1());
+        existPerson.setAddressLine2(person.getAddressLine2());
+        existPerson.setState(person.getState());
+        existPerson.setCountry(person.getCountry());
+        existPerson.setZipCode(person.getZipCode());
+        existPerson.setEmail(person.getEmail());
+        existPerson.setDateOfBirth(person.getDateOfBirth());
+        existPerson.setPersonType(person.getPersonType());
+
         personRepository.save(existPerson);
         return existPerson;
     }
 
-    public List<Person> findPersonByFirstNameAndPersonType(String firstName, String personType){
+    public List<Person> findPersonByFirstNameAndPersonType(String firstName, String personType) {
         List<Person> personList = null;
-        if(firstName != null && personType != null) {
+        if (firstName != null && personType != null) {
             personList = personRepository.findPersonByFirstNameAndPersonType(firstName, personType).stream().collect(Collectors.toList());
         }
         return personList;
     }
 
-    public void deletePerson(int personId){
-        Person person= personRepository.findById(personId).get();
-        if(person != null) {
+    public void deletePerson(int personId) {
+        Person person = personRepository.findById(personId).get();
+        if (person != null) {
             person.getCourses().stream()
                     .forEach(course -> {
                         course.getAttendances().forEach(attendance -> attendanceRepository.delete(attendance));
@@ -128,9 +105,10 @@ public class PersonService {
         }
 
     }
-    public Person findPersonById(int personId){
+
+    public Person findPersonById(int personId) {
         Person person = null;
-        if(personId > 0){
+        if (personId > 0) {
             person = personRepository.findById(personId).get();
         }
         return person;

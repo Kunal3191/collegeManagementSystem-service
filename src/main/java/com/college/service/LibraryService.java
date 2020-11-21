@@ -120,7 +120,8 @@ public class LibraryService {
         if(book != null){
             int bookId = book.getBookId();
             int bookQuantity =book.getQuantity();
-            bookedQuantity = libraryRepository.findAll().stream().filter(library -> library.getBook().getBookId() == book.getBookId())
+            List<Library> all = libraryRepository.findAll();
+            bookedQuantity=all.stream().filter(library -> library.getBook().getBookId() == book.getBookId())
                     .filter(library -> library.getStatus().equalsIgnoreCase("booked")).count();
             int bookedQuantityIntegerValue = (int)bookedQuantity;
             if(bookedQuantityIntegerValue < bookQuantity){
