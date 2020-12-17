@@ -68,9 +68,9 @@ public class CourseController {
 //    }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/courseMaster", method = RequestMethod.GET)
-    public Set<CourseMaster> getAllCourse(){
-        Set<CourseMaster> courseMasterSet = courseService.getAllCourses();
+    @RequestMapping(value = "/courseMaster/{personId}", method = RequestMethod.GET)
+    public Set<CourseMaster> getAllCourse(@PathVariable int personId){
+        Set<CourseMaster> courseMasterSet = courseService.getAllCourses(personId);
         return courseMasterSet;
     }
 }

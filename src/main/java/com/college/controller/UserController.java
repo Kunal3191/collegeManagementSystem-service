@@ -81,13 +81,16 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
-    public String deleteUser(@PathVariable int userId){
+    public Map<String, String> deleteUser(@PathVariable int userId){
+        Map<String, String> hashMap = new HashMap<>();
         if(userId > 0){
             userService.deleteUser(userId);
-            return "user is deleted.";
+            hashMap.put("message", "user is deleted");
+            return hashMap;
         }
         else{
-            return "user deletion failed.";
+            hashMap.put("message", "user deletion failed");
+            return hashMap;
         }
     }
 }

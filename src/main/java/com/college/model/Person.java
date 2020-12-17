@@ -1,5 +1,7 @@
 package com.college.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -153,10 +155,12 @@ public class Person {
     @JoinTable(name = "person_course", joinColumns=@JoinColumn(name = "person_id"), inverseJoinColumns =@JoinColumn(name = "course_id"))
     private Set<Course> courses;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     //@JoinColumn(insertable = false, updatable = false)
     private List<Attendance> attendances;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<Exam> exams;
 

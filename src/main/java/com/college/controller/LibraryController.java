@@ -91,4 +91,11 @@ public class LibraryController {
         hashMap.put("bookAvailable",bookAvailable);
         return hashMap;
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/library/book", method = RequestMethod.GET)
+    public List<Book> getAllBooks(){
+        List<Book> books = libraryService.getAllBooks();
+        return books;
+    }
 }

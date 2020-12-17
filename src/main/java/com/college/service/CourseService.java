@@ -82,6 +82,7 @@ public class CourseService {
                 course.getExams().forEach(exam -> examRepository.delete(exam));
             });
             person.removeCourse(courseRepository.getOne(courseId));
+            courseRepository.deleteById(courseId);
             //person.getCourses().stream().filter(course -> course.getCourseId() == courseId).forEach(course -> courseRepository.delete(course));
 //            Course course = courseRepository.findById(courseId).get();
 //            Set<Attendance> attendances = course.getAttendances();
@@ -93,8 +94,15 @@ public class CourseService {
 
     }
 
-    public Set<CourseMaster> getAllCourses(){
-        Set<CourseMaster> courseSet = courseMasterRepository.findAll().stream().collect(Collectors.toSet());
+    public Set<CourseMaster> getAllCourses(int personId){
+        Set<CourseMaster> courseSet = null;
+        Person person = null;
+        Optional<Person> personOptional = personRepository.findById(personId);
+        if(personOptional.isPresent()) {
+            person = personOptional.get();
+            String program = person.getProgram();
+            courseSet = courseMasterRepository.findByDepartment_DepartName(program).stream().collect(Collectors.toSet());
+        }
         return courseSet;
     }
 }

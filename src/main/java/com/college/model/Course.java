@@ -113,11 +113,11 @@ public class Course {
     @ManyToMany(mappedBy = "courses")
     private Set<Person> persons;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "course")
     private Set<Attendance> attendances;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "course")
     private Set<Exam> exams;
 
