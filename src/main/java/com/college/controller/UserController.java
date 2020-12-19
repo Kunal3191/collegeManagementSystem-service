@@ -17,8 +17,8 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserService userService;
@@ -41,15 +41,13 @@ public class UserController {
 
         if(userExists != null) {
             hashMap.put("message", "This email already in use. Please use different email");
-            return hashMap;
         }
         else {
             user.setPassword("test");
             userService.saveUser(user);
             hashMap.put("message", "User created Successfully");
-            return hashMap;
         }
-
+        return hashMap;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -72,11 +70,11 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user, @PathVariable int userId){
-        User existUser = null;
+        //User existUser = null;
         if(userId > 0){
-            existUser = userService.updateUser(user, userId);
+            user = userService.updateUser(user, userId);
         }
-        return existUser;
+        return user;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

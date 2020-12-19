@@ -24,8 +24,8 @@ public class UserService {
     @Autowired
     private CourseRepository courseRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  /*  @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;*/
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
