@@ -21,8 +21,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
+    /*@Autowired
+    private CourseRepository courseRepository;*/
 
   /*  @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;*/
