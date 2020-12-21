@@ -17,8 +17,8 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @Autowired
-    private PersonService personService;
+    /*@Autowired
+    private PersonService personService;*/
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/person/{personId}/course", method = RequestMethod.GET)
