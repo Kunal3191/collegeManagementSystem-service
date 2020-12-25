@@ -190,6 +190,17 @@ public class Person {
         this.attendances.add(attendance);
     }
 
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
+    }
 
     /* @Override
     public String toString() {

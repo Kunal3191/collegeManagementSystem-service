@@ -83,13 +83,6 @@ public class CourseService {
             });
             person.removeCourse(courseRepository.getOne(courseId));
             courseRepository.deleteById(courseId);
-            //person.getCourses().stream().filter(course -> course.getCourseId() == courseId).forEach(course -> courseRepository.delete(course));
-//            Course course = courseRepository.findById(courseId).get();
-//            Set<Attendance> attendances = course.getAttendances();
-//            attendances.forEach(attendance -> attendanceRepository.delete(attendance));
-//            Set<Exam> exams = course.getExams();
-//            exams.forEach(exam -> examRepository.delete(exam));
-//            courseRepository.deleteById(courseId);
         }
 
     }
