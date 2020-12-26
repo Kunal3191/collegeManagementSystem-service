@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +22,9 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Arrays;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -78,6 +81,23 @@ public class AttendanceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
                         "    \"message\": \"data saved successfully\"\n" +
-                        "}"));
+                        "}"))
+        .andReturn();
+    }
+
+    @Test
+    public void test_deleteAttendance_return_successMessage() throws Exception{
+        ArgumentCaptor<Integer> captor = ArgumentCaptor.forClass(Integer.class);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/person/{personId}/attendance/{attendanceId}", 1, 1)
+                .accept(MediaType.APPLICATION_JSON);
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "    \"message\": \"record deleted\"\n" +
+                        "}"))
+        .andReturn();
+        verify(attendanceService).deleteAttendance(anyInt());
+        verify(attendanceService).deleteAttendance(captor.capture());
+        assertEquals(1, captor.getValue());
     }
 }
