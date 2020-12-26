@@ -31,8 +31,8 @@ public class AttendanceService {
     public List<Attendance> getAllAttendance(int courseId, int personId){
         List<Attendance> attendanceSet = null;
         if(courseId > 0 && personId > 0){
-            String firstName = personRepository.findById(personId).map(Person::getFirstName).get();
-            String courseName = courseRepository.findById(courseId).map(Course::getName).get();
+            /*String firstName = personRepository.findById(personId).map(Person::getFirstName).get();
+            String courseName = courseRepository.findById(courseId).map(Course::getName).get();*/
             //attendanceSet = attendanceRepository.findByCourseNameAndPersonName(courseName, firstName);
             attendanceSet = attendanceRepository.findAttendanceByCourse_CourseId(courseId).stream().filter(attendance -> attendance.getPerson().getPersonId() == personId)
             .collect(Collectors.toList());
