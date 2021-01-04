@@ -33,8 +33,8 @@ public class ExamService {
     public Set<Exam> getAllExam(int courseId, int personId){
         Set<Exam> examSet = null;
         if(courseId > 0 && personId > 0){
-            String firstName = personRepository.findById(personId).map(Person::getFirstName).get();
-            String courseName = courseRepository.findById(courseId).map(Course::getName).get();
+            /*String firstName = personRepository.findById(personId).map(Person::getFirstName).get();
+            String courseName = courseRepository.findById(courseId).map(Course::getName).get();*/
             examSet = examRepository.findExamByCourse_CourseId(courseId).stream().filter(attendance -> attendance.getPerson().getPersonId() == personId)
                     .collect(Collectors.toSet());
         }
