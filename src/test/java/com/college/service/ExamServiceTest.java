@@ -83,6 +83,7 @@ public class ExamServiceTest {
         JSONAssert.assertEquals("AAA", captor.getValue().getName(), false);
         JSONAssert.assertEquals("BBB", captor.getValue().getPersonName(), false);
         JSONAssert.assertEquals("CCC", captor.getValue().getCourseName(), false);
+
     }
 
     @Test
